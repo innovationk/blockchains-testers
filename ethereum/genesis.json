@@ -1,0 +1,35 @@
+{
+  "config": {
+    // Chain ID is a unique identifier for the blockchain network.
+    // It is used to prevent replay attacks between different networks.
+    "chainId": 7357,
+
+    // Block numbers where specific Ethereum Improvement Proposals (EIPs) are activated.
+    // Setting these to 0 means they are active from the genesis block.
+    "homesteadBlock": 0,
+    "eip150Block": 0,
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "istanbulBlock": 0,
+    "berlinBlock": 0,
+    "londonBlock": 0,
+
+    // Configuration for the Ethash consensus engine
+    "ethash": {}
+  },
+
+  // Difficulty is a measure of how hard it is to mine a block.
+  // A lower difficulty means it is easier to mine blocks, which is useful for testing.
+  "difficulty": "0x20000",
+
+  // Gas limit is the maximum amount of gas that can be used in a block.
+  // Gas is a unit that measures the computational effort required to execute operations.
+  "gasLimit": "0x8000000",
+
+  // Alloc is used to pre-fund accounts with Ether.
+  // In this example, no accounts are pre-funded.
+  "alloc": {}
+}
