@@ -10,5 +10,14 @@ do
     rm -rf "node$iNode"
     
     echo "Creating node $iNode..."
-    mkdir "node$iNode"
+    mkdir -p "node$iNode/data"
+
+    echo "Creating account node $iNode..."
+    # Create a password file
+    echo "password$iNode" > "node$iNode/password.txt"
+    geth --datadir "node$iNode/data" account new --password "node$iNode/password.txt"
+    geth --datadir "node$iNode/data" account list
+
+    # echo "Initialising node $iNode..."
+    # geth --datadir node$iNode/data init genesis.json
 done
