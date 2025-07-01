@@ -1,74 +1,27 @@
 # Blockchains Testers
 
-## Ethereum - geth
+## Ethereum - geth 1.13.15-stable
 
 ### Requirements
 
-#### Step 1: Install Geth
+Install
 
-On Linux (Ubuntu/Debian)
+    cd geth
+    tar -xvzf geth-alltools-linux-amd64-1.13.15-c5ba367e.tar.gz
+    sudo cp geth-alltools-linux-amd64-1.13.15-c5ba367e/abigen /usr/local/bin/
+    sudo cp geth-alltools-linux-amd64-1.13.15-c5ba367e/bootnode /usr/local/bin/
+    sudo cp geth-alltools-linux-amd64-1.13.15-c5ba367e/clef /usr/local/bin/
+    sudo cp geth-alltools-linux-amd64-1.13.15-c5ba367e/evm /usr/local/bin/
+    sudo cp geth-alltools-linux-amd64-1.13.15-c5ba367e/geth /usr/local/bin/
+    sudo cp geth-alltools-linux-amd64-1.13.15-c5ba367e/rlpdump /usr/local/bin/
 
-Add the Ethereum repository:
-
-    sudo add-apt-repository -y ppa:ethereum/ethereum
-    sudo apt-get update
-
-Install Geth:
-
-    sudo apt-get install geth
-
-On macOS
-
-    Using Homebrew:
-
-    brew tap ethereum/ethereum
-    brew install geth
-
-On Windows
-
-    Download the installer from the official Geth GitHub repository.
-    Run the installer and follow the instructions.
-
-#### Step 2: Verify Installation
-
-After installing Geth, verify that it is correctly installed by running:
+Reboot terminal and check
 
     geth version
-
-    # Here we are in
-    Version: 1.16.0-stable
-
-This should display the version of Geth installed on your system.
-
-#### Step 3: Add Geth to PATH (if necessary)
-
-If Geth is installed but still not found, it might not be in your system's PATH. You can add it manually.
-
-On Linux/macOS
-
-    Find the Geth executable:
-    which geth
-
-If it returns a path, ensure that path is in your PATH environment variable.
-
-Add to PATH:
-
-    export PATH=$PATH:/path/to/geth
-
-    Replace /path/to/geth with the actual path to the Geth executable.
-
-On Windows
-
-    Find the Geth executable: It is usually installed in C:\Program Files\Geth.
-    Add to PATH:
-        Open the Start Search, type in "env", and select "Edit the system environment variables".
-        In the System Properties window, click on the "Environment Variables" button.
-        Under "System variables", find the "Path" variable, select it, and click "Edit".
-        Add the path to the Geth executable (e.g., C:\Program Files\Geth).
-
-#### Step 4: Restart Terminal
-
-After adding Geth to your PATH, restart your terminal or command prompt and try running geth version again.
+    Geth
+    Version: 1.13.15-stable
+    Git Commit: c5ba367eb6232e3eddd7d6226bfd374449c63164
+    Git Commit Date: 20240417
 
 ### Launch
 

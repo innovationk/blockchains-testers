@@ -1,5 +1,6 @@
-*/node0
-*/node1
-*/node2
+*/eth-private-network
+/geth
+
+node_modules
 
 .DS_Store
