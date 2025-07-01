@@ -37,7 +37,7 @@ async function getWallet() {
 
 
 async function main() {
-    try {
+    // try {
         const wallet = await getWallet();
 
         if( fs.existsSync(OUTPUT_FILE_PATH) ) {
@@ -71,20 +71,34 @@ async function main() {
             
             let propagationStartTime = Date.now();
 
-            await Promise.all([
-                web3Node1.eth.getTransactionReceipt(txHash.transactionHash),
-                web3Node2.eth.getTransactionReceipt(txHash.transactionHash),
-                web3Node3.eth.getTransactionReceipt(txHash.transactionHash),
-            ]);
+
+            let receipt = null;
+            while (!receipt) {
+                try {
+                    receipt = await Promise.all([
+                        web3Node1.eth.getTransactionReceipt(txHash.transactionHash),
+                        web3Node2.eth.getTransactionReceipt(txHash.transactionHash),
+                        web3Node3.eth.getTransactionReceipt(txHash.transactionHash),
+                    ]);
+
+                    if (!receipt[0]) {
+                        console.log('Transaction not mined yet, retrying...');
+                        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+                    }
+                } catch(e) {
+                    console.log('Transaction not mined yet, retrying...');
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
 
             let propagationTime = Date.now() - propagationStartTime;
 
             fs.appendFileSync(OUTPUT_FILE_PATH, `${iTx},${txTime},${propagationTime}\n`);
         }
         
-    } catch (error) {
-        console.error(error);
-    }
+    // } catch (error) {
+    //     console.error(error);
+    // }
 
 }
 
