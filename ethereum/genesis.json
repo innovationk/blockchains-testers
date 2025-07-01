@@ -14,6 +14,6 @@
     "ethash": {}
   },
   "difficulty": "0x1",
-  "gasLimit": "0x8000000",
+  "gasLimit": "0x1fffffffffff",
   "alloc": {}
 }
