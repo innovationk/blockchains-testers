@@ -69,6 +69,7 @@ async function main() {
             let txTime = Date.now() - startTime;
             
             // Wait until the transaction is mined on all nodes
+
             
             let propagationStartTime = Date.now();
 
