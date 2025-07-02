@@ -1,10 +1,10 @@
 import Web3 from 'web3';
 import * as fs from 'node:fs';
 
-const TRANSACTION_COUNT = 10;
+const TRANSACTION_COUNT = 10000;
 const OUTPUT_FILE_PATH = `${process.cwd()}/results.csv`;
 
-const web3 = new Web3();
+// const web3 = new Web3();
 
 // Connect to all nodes (adjust RPC URLs as per your network setup)
 const web3Node1 = new Web3('http://127.0.0.1:8545'); // Node 1
@@ -27,7 +27,7 @@ async function getWallet() {
     try {
         const keystoreFile = fs.readFileSync(NODE1_KEYSTOREFILEPATH, 'utf8');
         const keystoreJSON = JSON.parse(keystoreFile);
-        const wallet = await web3.eth.accounts.decrypt(keystoreJSON, NODE1_PASSWORD);
+        const wallet = await web3Node1.eth.accounts.decrypt(keystoreJSON, NODE1_PASSWORD);
         return wallet;
     } catch (error) {
         console.error('Error decrypting keystore:', error);
@@ -51,15 +51,16 @@ async function main() {
 
             let startTime = Date.now();
 
-            const message = web3.utils.toHex(`transaction ${iTx}`);
-            const tx = {
+            const message = web3Node1.utils.toHex(`transaction ${iTx}`);
+            let tx = {
                 from: wallet.address,
                 to: wallet.address,
-                gas: web3.utils.toHex(21884),
-                gasPrice: web3.utils.toHex(web3.utils.toWei('0.00000001', 'gwei')),
-                value: web3.utils.toWei('1', 'ether'),
                 data: message,
+                // value: web3Node1.utils.toWei('1', 'ether'),
+                gasPrice: web3Node1.utils.toHex(web3Node1.utils.toWei('0.00000001', 'gwei')),
             };
+            const estimatedGas = await web3Node1.eth.estimateGas(tx);
+            tx.gas = estimatedGas;
 
             const signedTx = await web3Node1.eth.accounts.signTransaction(tx, wallet.privateKey);
             const txHash = await web3Node1.eth.sendSignedTransaction(signedTx.rawTransaction);
@@ -83,11 +84,11 @@ async function main() {
 
                     if (!receipt[0]) {
                         console.log('Transaction not mined yet, retrying...');
-                        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+                        // await new Promise(resolve => setTimeout(resolve, 1000));
                     }
                 } catch(e) {
                     console.log('Transaction not mined yet, retrying...');
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             }
 
