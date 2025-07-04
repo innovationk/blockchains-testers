@@ -7,12 +7,12 @@ const OUTPUT_FILE_PATH = `${process.cwd()}/results.csv`;
 // const web3 = new Web3();
 
 // Connect to all nodes (adjust RPC URLs as per your network setup)
-const web3Node1 = new Web3('http://127.0.0.1:8545'); // Node 1
-const web3Node2 = new Web3('http://127.0.0.1:8546'); // Node 2
-const web3Node3 = new Web3('http://127.0.0.1:8547'); // Node 3
+const web3Node1 = new Web3('http://127.0.0.1:8540'); // Node 1
+const web3Node2 = new Web3('http://127.0.0.1:8541'); // Node 2
+const web3Node3 = new Web3('http://127.0.0.1:8542'); // Node 3
 
 const NODE1_PASSWORD = 'poiuyt';
-const NODE1_KEYSTOREFILEPATH = `${process.cwd()}/eth-private-network/node1/keystore/UTC--2025-07-03T17-47-39.878686618Z--611a2876c7ec7f4854fc4a822094a5a7f99c7896`;
+const NODE1_KEYSTOREFILEPATH = `${process.cwd()}/network/Node0/keystore/UTC--2025-07-04T16-33-50.274428659Z--98cd068c1bb8be5d70f80f2c99e97b500130a89f`;
 
 /*
 return {

@@ -10,6 +10,7 @@ MAX_NODES=3
 
 echo "Cleaning up network"
 rm -rf $NETWOR_DIR_PATH
+rm -rf logs.txt
 
 
 NODES_ADDRESSES=()
@@ -41,7 +42,7 @@ do
     NODE_HTTP_PORT=$(( 8540 + $iNode ))
     NODE_AUTHRPC_PORT=$(( 8550 + $iNode ))
     NODE_PORT=$(( 30300 + $iNode ))
-    if [[ "$iNode" -eq 1 ]]; then
+    if [[ "$iNode" -eq 0 ]]; then
         CMD="geth --datadir '$NETWOR_DIR_PATH/Node${iNode}' \
             --networkid 2025 \
             --http --http.addr 127.0.0.1 --http.port $NODE_HTTP_PORT \
@@ -67,8 +68,13 @@ do
                 --ipcdisable \
         console"
     fi
+
     konsole --hold -p tabtitle="Node$iNode" -e bash -c "$CMD" &
+    printf "$CMD\n\n" >> ./logs.txt
 done
+
+
+
 
 printf "\n\nWaiting 5 sec before linking nodes...\n"
 sleep 5
@@ -84,7 +90,11 @@ printf "\n\nWaiting 5 sec before checking...\n"
 
 echo "admin.peers" | geth attach http://127.0.0.1:8540
 
-# for (( iNode = 0; iNode < $MAX_NODES; ++iNode ))
-# do
-#     printf "${NODES_ADDRESSES[0]}"
-# done
+
+
+for (( iNode = 0; iNode < $MAX_NODES; ++iNode ))
+do
+    printf "Node$iNode:\n\t${NODES_ADDRESSES[$iNode]}\n\t${NODES_KEYFILES[$iNode]}\n" >> ./logs.txt
+
+    printf "\n" >> ./logs.txt
+done
