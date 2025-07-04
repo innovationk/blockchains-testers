@@ -3,13 +3,22 @@
 ## Archi
 
 .
-├── eth-private-network
+├── network/ (will be generated)
 ├── measureTransactionTime.js
 ├── node_modules
 ├── package.json
 ├── package-lock.json
 ├── README.md
 └── results.csv
+
+## Auto
+
+```
+./initNetwork.sh
+# Logs > copy network/Node0/keystore/... in measureTransactionTime.js > NODE1_KEYSTOREFILEPATH
+nvm use 20
+node ./measureTransactionTime.js
+```
 
 ## Commands
 

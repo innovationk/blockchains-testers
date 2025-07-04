@@ -4,7 +4,8 @@ set -e
 
 
 NETWOR_DIR_PATH=./network
-GENESIS_PATH=$NETWOR_DIR_PATH/genesis.json
+GENESIS_INPUT_PATH=./genesisPoA.json
+GENESIS_OUTPUT_PATH=$NETWOR_DIR_PATH/genesis.json
 MAX_NODES=3
 
 
@@ -30,12 +31,12 @@ do
     NODES_KEYFILES+=($keyfile)
 
     echo "Copy and customise genesis"
-    cp genesisPoA.json $GENESIS_PATH
+    cp $GENESIS_INPUT_PATH $GENESIS_OUTPUT_PATH
     ADDRESS_NO_PREFIX=$(echo ${NODES_ADDRESSES[0]} | sed 's/^0x//')
-    sed -i "s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$ADDRESS_NO_PREFIX/g" $GENESIS_PATH
+    sed -i "s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$ADDRESS_NO_PREFIX/g" $GENESIS_OUTPUT_PATH
 
     echo "Init the node"
-    geth --datadir $NETWOR_DIR_PATH/Node$iNode init $GENESIS_PATH
+    geth --datadir $NETWOR_DIR_PATH/Node$iNode init $GENESIS_OUTPUT_PATH
 
     # For ubuntu : gnome-terminal --title="Geth Node$iNode" -- bash -c 'geth ...'
     CMD=""

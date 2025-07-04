@@ -27,6 +27,6 @@ Reboot terminal and check
 
 ```
 cd ethereum
-chmod +x launch.sh 
-./launch.sh 
+chmod +x initNetwork.sh
+./initNetwork.sh
 ```

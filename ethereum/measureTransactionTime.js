@@ -4,15 +4,13 @@ import * as fs from 'node:fs';
 const TRANSACTION_COUNT = 10000;
 const OUTPUT_FILE_PATH = `${process.cwd()}/results.csv`;
 
-// const web3 = new Web3();
-
 // Connect to all nodes (adjust RPC URLs as per your network setup)
-const web3Node1 = new Web3('http://127.0.0.1:8540'); // Node 1
-const web3Node2 = new Web3('http://127.0.0.1:8541'); // Node 2
-const web3Node3 = new Web3('http://127.0.0.1:8542'); // Node 3
+const web3Node0 = new Web3('http://127.0.0.1:8540'); // Node 0
+const web3Node1 = new Web3('http://127.0.0.1:8541'); // Node 1
+const web3Node2 = new Web3('http://127.0.0.1:8542'); // Node 2
 
-const NODE1_PASSWORD = 'poiuyt';
-const NODE1_KEYSTOREFILEPATH = `${process.cwd()}/network/Node0/keystore/UTC--2025-07-04T16-33-50.274428659Z--98cd068c1bb8be5d70f80f2c99e97b500130a89f`;
+const NODE0_PASSWORD = 'poiuyt';
+const NODE0_KEYSTOREFILE_PATH = `${process.cwd()}/network/Node0/keystore/UTC--2025-07-04T16-37-40.261101978Z--9838c79cf56c8e7dc2c2af494680a9ffda114aa3`;
 
 /*
 return {
@@ -25,9 +23,9 @@ return {
 */
 async function getWallet() {
     try {
-        const keystoreFile = fs.readFileSync(NODE1_KEYSTOREFILEPATH, 'utf8');
+        const keystoreFile = fs.readFileSync(NODE0_KEYSTOREFILE_PATH, 'utf8');
         const keystoreJSON = JSON.parse(keystoreFile);
-        const wallet = await web3Node1.eth.accounts.decrypt(keystoreJSON, NODE1_PASSWORD);
+        const wallet = await web3Node0.eth.accounts.decrypt(keystoreJSON, NODE0_PASSWORD);
         return wallet;
     } catch (error) {
         console.error('Error decrypting keystore:', error);
@@ -51,19 +49,19 @@ async function main() {
 
             let startTime = Date.now();
 
-            const message = web3Node1.utils.toHex(`transaction ${iTx}`);
+            const message = web3Node0.utils.toHex(`transaction ${iTx}`);
             let tx = {
                 from: wallet.address,
                 to: wallet.address,
                 data: message,
                 // value: web3Node1.utils.toWei('1', 'ether'),
-                gasPrice: web3Node1.utils.toHex(web3Node1.utils.toWei('0.00000001', 'gwei')),
+                gasPrice: web3Node0.utils.toHex(web3Node0.utils.toWei('0.00000001', 'gwei')),
             };
-            const estimatedGas = await web3Node1.eth.estimateGas(tx);
+            const estimatedGas = await web3Node0.eth.estimateGas(tx);
             tx.gas = estimatedGas;
 
-            const signedTx = await web3Node1.eth.accounts.signTransaction(tx, wallet.privateKey);
-            const txHash = await web3Node1.eth.sendSignedTransaction(signedTx.rawTransaction);
+            const signedTx = await web3Node0.eth.accounts.signTransaction(tx, wallet.privateKey);
+            const txHash = await web3Node0.eth.sendSignedTransaction(signedTx.rawTransaction);
             console.log(txHash.transactionHash);
 
             let txTime = Date.now() - startTime;
@@ -78,9 +76,9 @@ async function main() {
             while (!receipt) {
                 try {
                     receipt = await Promise.all([
+                        web3Node0.eth.getTransactionReceipt(txHash.transactionHash),
                         web3Node1.eth.getTransactionReceipt(txHash.transactionHash),
                         web3Node2.eth.getTransactionReceipt(txHash.transactionHash),
-                        web3Node3.eth.getTransactionReceipt(txHash.transactionHash),
                     ]);
 
                     if (!receipt[0]) {
