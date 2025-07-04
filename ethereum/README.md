@@ -101,15 +101,6 @@ geth --datadir node1 \
  --ipcdisable \
  console
 
- geth --datadir node1/data \
-  --networkid 2025 \
-  --rpc --rpcport 8545 --rpccorsdomain "*" --rpcapi "eth,net,web3,personal,miner,admin" \
-  --port 30303  \
-  --nodiscover \
-  --maxpeers 2 --mine --minerthreads 1 \
-  --etherbase <node1-address> --unlock <node1-address> --password <password-file>
-
-
 geth --datadir node2 \
  --networkid 2025 \
  --port 30304 \

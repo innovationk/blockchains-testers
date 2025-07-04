@@ -1,5 +1,6 @@
 */eth-private-network
 /geth
+/ethereum/network
 
 node_modules
 
