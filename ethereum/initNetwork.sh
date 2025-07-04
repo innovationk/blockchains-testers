@@ -66,8 +66,7 @@ do
                 --ipcdisable \
         console"
     fi
-    konsole --hold --new-tab --title "Node$iNode" -e bash -c "$CMD" &
-    
+    konsole --hold -p tabtitle="Node$iNode" -e bash -c "$CMD" &
 done
 
 
