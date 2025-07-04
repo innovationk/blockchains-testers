@@ -27,7 +27,11 @@ do
     NODES_ADDRESSES+=($address)
     NODES_KEYFILES+=($keyfile)
 
-    
+    echo "Copy and customise genesis"
+    cp genesisPoA.json ./network/genesis.json
+    ADDRESS_NO_PREFIX=$(echo ${NODES_ADDRESSES[0]} | sed 's/^0x//')
+    sed -i "s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$ADDRESS_NO_PREFIX/g" ./network/genesis.json
+
 done
 
 
