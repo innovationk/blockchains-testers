@@ -62,12 +62,12 @@ geth --datadir node3 account new --password passwordNode1.txt
 
 # Copy the address 
 
-Public address of the key:   0xe698c3676F9e2592CDE727C0EBe483F4F2D5B25A
-Path of the secret key file: node1/keystore/UTC--2025-07-01T17-54-40.477870415Z--e698c3676f9e2592cde727c0ebe483f4f2d5b25a
+Public address of the key:   0x611a2876C7EC7F4854fc4a822094A5A7F99c7896
+Path of the secret key file: node1/keystore/UTC--2025-07-03T17-47-39.878686618Z--611a2876c7ec7f4854fc4a822094a5a7f99c7896
 
-Public address of the key:   0xa7ef33F41457d619494AB6Dc2f77f2903bf47EC8
+Public address of the key:   0xfD4653f7F7BdB8c98eD7A3cC7d2F4256B4ABbeF4
 
-Public address of the key:   0xeDf2553514bdC639cd4e2567588E43dD18eE05CF
+Public address of the key:   0xee156BF450b9e573820494Accf460A6980927F0F
 
 # update extra data in genesis.json : extraData = 32 bytes vanity + signer addresses + 65 bytes of padding.
 
@@ -85,19 +85,30 @@ geth --datadir node3 init genesis.json
 
 # Start the Nodes
 
+## POA
+
 geth --datadir node1 \
  --networkid 2025 \
  --http --http.addr 127.0.0.1 --http.port 8545 \
  --authrpc.port 8551 \
  --port 30303 \
- --unlock "0xe698c3676F9e2592CDE727C0EBe483F4F2D5B25A" \
+ --unlock "0x611a2876C7EC7F4854fc4a822094A5A7F99c7896" \
  --password ./passwordNode1.txt \
  --mine \
  --allow-insecure-unlock \
- --miner.etherbase "0xe698c3676F9e2592CDE727C0EBe483F4F2D5B25A" \
+ --miner.etherbase "0x611a2876C7EC7F4854fc4a822094A5A7F99c7896" \
  --nodiscover \
  --ipcdisable \
  console
+
+ geth --datadir node1/data \
+  --networkid 2025 \
+  --rpc --rpcport 8545 --rpccorsdomain "*" --rpcapi "eth,net,web3,personal,miner,admin" \
+  --port 30303  \
+  --nodiscover \
+  --maxpeers 2 --mine --minerthreads 1 \
+  --etherbase <node1-address> --unlock <node1-address> --password <password-file>
+
 
 geth --datadir node2 \
  --networkid 2025 \
@@ -123,12 +134,12 @@ In Node1 console, get the enode:
     admin.nodeInfo.enode
 
     Copy that enode URL (e.g.,
-        "enode://f2d387db0ea7ea24a42094baecf3d2969dbe3377ed935d488ca549dcdf91a43eda59294c66e9c6f13947a952e854cf99f4fdbafcf232a97d562dbdfecc1586d1@82.66.248.212:30303?discport=0"
+        "enode://237c7fc4b47beb33ff1b0d8720433049cd19fde34649335dc6237446becc74163eaa6d4623b55574ad342ac2a64ff35b76031a6f1034e72201280d3087ba6b0c@82.66.248.212:30303?discport=0"
     )
 
 In Node2 and Node3 consoles, add peer:
 
-    admin.addPeer("enode://f2d387db0ea7ea24a42094baecf3d2969dbe3377ed935d488ca549dcdf91a43eda59294c66e9c6f13947a952e854cf99f4fdbafcf232a97d562dbdfecc1586d1@82.66.248.212:30303?discport=0")
+    admin.addPeer("enode://237c7fc4b47beb33ff1b0d8720433049cd19fde34649335dc6237446becc74163eaa6d4623b55574ad342ac2a64ff35b76031a6f1034e72201280d3087ba6b0c@82.66.248.212:30303?discport=0")
 
 
 # check
