@@ -70,12 +70,19 @@ do
     konsole --hold -p tabtitle="Node$iNode" -e bash -c "$CMD" &
 done
 
+printf "\n\nWaiting 5 sec before linking nodes...\n"
 sleep 5
 
 printf "\n\nLinking nodes\n"
 ENODE=$( echo 'admin.nodeInfo.enode' | geth attach http://127.0.0.1:8540 | grep 'enode://' | tr -d '"' )
 echo "Node0 enode: $ENODE"
 
+echo "admin.addPeer('$ENODE')" | geth attach http://127.0.0.1:8541
+echo "admin.addPeer('$ENODE')" | geth attach http://127.0.0.1:8542
+
+printf "\n\nWaiting 5 sec before checking...\n"
+
+echo "admin.peers" | geth attach http://127.0.0.1:8540
 
 # for (( iNode = 0; iNode < $MAX_NODES; ++iNode ))
 # do
