@@ -37,7 +37,7 @@ do
     geth --datadir $NETWOR_DIR_PATH/Node$iNode init $GENESIS_PATH
 
     # For ubuntu : gnome-terminal --title="Geth Node$iNode" -- bash -c 'geth ...'
-    CMD="ls -al"
+    CMD=""
     NODE_HTTP_PORT=$(( 8540 + $iNode ))
     NODE_AUTHRPC_PORT=$(( 8550 + $iNode ))
     NODE_PORT=$(( 30300 + $iNode ))
@@ -45,6 +45,7 @@ do
         CMD="geth --datadir '$NETWOR_DIR_PATH/Node${iNode}' \
             --networkid 2025 \
             --http --http.addr 127.0.0.1 --http.port $NODE_HTTP_PORT \
+            --http.api "admin,eth,net,web3" \
             --authrpc.port $NODE_AUTHRPC_PORT \
             --port $NODE_PORT \
             --unlock '$address' \
@@ -55,12 +56,12 @@ do
             --nodiscover \
             --ipcdisable \
         console"
-        echo $CMD
     else
         CMD="geth --datadir '$NETWOR_DIR_PATH/Node${iNode}' \
                 --networkid 2025 \
                 --port $NODE_PORT \
                 --http --http.addr 127.0.0.1 --http.port $NODE_HTTP_PORT \
+                --http.api "admin,eth,net,web3" \
                 --authrpc.port $NODE_AUTHRPC_PORT \
                 --nodiscover \
                 --ipcdisable \
@@ -68,6 +69,12 @@ do
     fi
     konsole --hold -p tabtitle="Node$iNode" -e bash -c "$CMD" &
 done
+
+sleep 5
+
+printf "\n\nLinking nodes\n"
+ENODE=$( echo 'admin.nodeInfo.enode' | geth attach http://127.0.0.1:8540 | grep 'enode://' | tr -d '"' )
+echo "Node0 enode: $ENODE"
 
 
 # for (( iNode = 0; iNode < $MAX_NODES; ++iNode ))
